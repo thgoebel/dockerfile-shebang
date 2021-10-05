@@ -47,7 +47,8 @@ kill_delayed_message() {
 }
 trap kill_delayed_message EXIT
 
-BUILD_OUTPUT=$(docker build --label "dockerfile-shebang=true" -t "$DOCKERFILE_NAME" - 2>&1 < "$DOCKERFILE_PATH")
+BUILD_CONTEXT=$(dirname "$DOCKERFILE_PATH")
+BUILD_OUTPUT=$(docker build --label "dockerfile-shebang=true" -t "$DOCKERFILE_NAME" -f "$DOCKERFILE_PATH" "$BUILD_CONTEXT" 2>&1)
 BUILD_EXIT=$?
 
 kill_delayed_message
